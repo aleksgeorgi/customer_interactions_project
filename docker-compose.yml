@@ -1,0 +1,40 @@
+services:
+  flask-api:
+    build: .
+    container_name: flask-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/customer_support
+    volumes:
+      - .:/app
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-setup:
+    build: .
+    command: python mongo_setup.py
+    depends_on:
+      - mongo
+    volumes:
+      - .:/app
+
+volumes:
+  mongo_data:
+
+# best practice: after making changes to the docker-compose.yml file, it's a good idea to clean up existing containers and volumes to ensure a fresh start
+# this will help avoid any conflicts or leftover data from previous builds
+# to do this, use the following command to stop and remove all containers, volumes, and any orphan containers:
+  #  docker-compose down -v --remove-orphans
+
+# then, use the following command to build and run the containers:
+  #  docker-compose up --build  
