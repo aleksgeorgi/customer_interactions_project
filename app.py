@@ -12,8 +12,11 @@ collection = db["complaints"]
 @app.route("/complaints/<company>", methods=["GET"])
 def get_complaints(company):
     """Fetch complaints for a given company."""
-    complaints = list(collection.find({"Company": company}, {"_id": 0}))  # Exclude MongoDB ID
-    return jsonify(complaints)
+    try:
+        complaints = list(collection.find({"Company": company}, {"_id": 0}))  # Exclude MongoDB ID
+        return jsonify(complaints), 200 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500 
 
 @app.route("/complaints", methods=["POST"])
 def add_complaint():
