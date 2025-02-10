@@ -72,28 +72,46 @@ If you prefer to run the project outside of Docker:
 
 ## API Endpoints
 
-- **GET /complaints/<company>** → Returns complaints for a specific company.
-- **POST /complaints** → Adds a new complaint.
-- **PUT /complaints/<complaint_id>** → Updates an existing complaint by its ID.
+- **GET /complaints/<company>** → Returns complaints for a specific company
+- **POST /complaints** → Adds a new complaint
+- **PUT /complaints/<complaint_id>** → Updates an existing complaint by its ID
 
-## Testing with cURL
+## Testing with cURL or PowerShell
 
-To interact with the database using cURL, you can test the API with the company name **MOHELA**:
+You can interact with the API using either cURL (Unix-based) or PowerShell (Windows).
 
-### **Fetch complaints for MOHELA:**
+### **Fetch Complaints for a Company**
 
+#### Using cURL:
 ```sh
 curl "http://localhost:5000/complaints/MOHELA"
 ```
 
-### **Add a new complaint:**
+#### Using PowerShell:
+```powershell
+Invoke-RestMethod -Uri "http://localhost:5000/complaints/MOHELA" -Method Get
+```
 
+### **Add a New Complaint**
+
+#### Using cURL:
+```sh
+curl -X POST "http://localhost:5000/complaints" -H "Content-Type: application/json" -d '{"Company": "MOHELA", "Issue": "Billing error", "Description": "Unexpected charge on account"}'
+```
+
+#### Using PowerShell:
 ```powershell
 Invoke-RestMethod -Uri "http://localhost:5000/complaints" -Method Post -Headers @{"Content-Type"="application/json"} -Body '{"Company": "MOHELA", "Issue": "Billing error", "Description": "Unexpected charge on account"}'
 ```
 
-### **Update a complaint (using known ID: 679c16f8cf4944fca50b01d0):**
+### **Update a Complaint**
 
+#### Using cURL:
+```sh
+curl -X PUT "http://localhost:5000/complaints/679c16f8cf4944fca50b01d0" -H "Content-Type: application/json" -d '{"Issue": "Updated Issue", "Description": "Updated Description"}'
+```
+
+#### Using PowerShell:
 ```powershell
 $complaintId = "679c16f8cf4944fca50b01d0"  
 $updateData = @{
@@ -103,6 +121,11 @@ $updateData = @{
 
 Invoke-RestMethod -Uri "http://localhost:5000/complaints/$complaintId" -Method Put -ContentType "application/json" -Body $updateData
 ```
+
+### Notes
+
+- Ensure your Flask application is running and accessible at `http://localhost:5000` before attempting these requests.
+- Replace `MOHELA` and `679c16f8cf4944fca50b01d0` with the actual company name and complaint ID you wish to use.
 
 ## Future Improvements
 
