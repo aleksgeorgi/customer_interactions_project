@@ -1,6 +1,12 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from bson import ObjectId
+from twilio_service import send_sms
+import logging
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -66,6 +72,30 @@ def update_complaint(complaint_id):
             return jsonify({"message": "Complaint not found."}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/send-notification", methods=["POST"])
+def send_notification():
+    """Endpoint to trigger SMS notification."""
+    try:
+        data = request.get_json()
+        to_number = data.get("to_number")
+        message_body = data.get("message_body")
+        
+        logger.info(f"Sending SMS to {to_number} with message: {message_body}")
+        
+        if not to_number or not message_body:
+            return jsonify({"error": "Missing required parameters"}), 400
+        
+        message_sid = send_sms(to_number, message_body)
+        
+        if message_sid:
+            return jsonify({"message": "SMS notification sent successfully!"}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Failed to send SMS notification. " + str(e)}), 500
+    
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
