@@ -37,7 +37,7 @@ If you're setting up the project for the first time or after making changes to d
 1. Clone this repository:
 
    ```sh
-   git clone https://github.com/yourusername/customer_interactions_project.git
+   git clone https://github.com/aleksgeorgi/customer_interactions_project.git
    ```
 
 2. Install dependencies:
