@@ -5,7 +5,7 @@
 This project simulates a customer support system using:
 
 - **MongoDB**: Stores customer complaints
-- **Twilio**: Sends SMS updates
+- **Twilio**: Sends SMS updates, and sends & receives voice calls
 - **Datadog**: Logs complaint events
 - **Snowflake**: Stores aggregated complaint data
 - **Docker**: Containers for easy deployment
