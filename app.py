@@ -84,10 +84,10 @@ def send_notification():
         return jsonify({"error": "Internal Server Error"}), 500
 
 @app.route("/voice", methods=['GET', 'POST'])
-def voice():
+def recieve_voice_call():
     """Endpoint to receive phone calls.
     USE:
-        from an external phone call the twilio number
+        from an external phone, call the twilio number
     """
     try:
         return receive_call()
