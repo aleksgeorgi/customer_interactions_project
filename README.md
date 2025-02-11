@@ -125,7 +125,7 @@ Invoke-RestMethod -Uri "http://localhost:5000/complaints/$complaintId" -Method P
 ### Notes
 
 - Ensure your Flask application is running and accessible at `http://localhost:5000` before attempting these requests.
-- Replace `MOHELA` and `679c16f8cf4944fca50b01d0` with the actual company name and complaint ID you wish to use.
+- Replace `MOHELA` and `679c16f8cf4944fca50b01d0` with another company name and complaint ID if you wish.
 
 ## Future Improvements
 
