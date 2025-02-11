@@ -28,6 +28,24 @@ def make_call(to_number: str):
         logger.error(f"Error making call to {to_number}: {str(e)}")
         return None
 
+def make_call():
+    """Make a phone call using Twilio and Twiml"""
+    data = request.get_json()
+    to_number = data.get("to_number")
+    try:
+        call = client.calls.create(
+            twiml="<Response><Say>Hello, this is a test call from Aleksandra's Twilio test phone number. Have a good day!</Say></Response>",
+            to=to_number,
+            from_=TWILIO_PHONE_NUMBER,
+            # url="https://demo.twilio.com/docs/voice.xml"
+        )
+        logger.info(f"Call made successfully to {to_number}. SID: {call.sid}")
+        return call.sid
+
+    except Exception as e:
+        logger.error(f"Error making call to {to_number}: {str(e)}")
+        return None
+
 def receive_call():
     response = VoiceResponse()
     
@@ -61,6 +79,7 @@ def receive_call():
         response.say("An unexpected error occurred. Please try again later.")
     
     return str(response)
+
 
 if __name__ == "__main__":
     # send_sms("+18777804236", "Hello, this is a test message from Twilio!")

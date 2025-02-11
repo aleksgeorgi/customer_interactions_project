@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from services.twilio_voice_service import receive_call
+from services.twilio_voice_service import receive_call, make_call
 from services.numbers_db_service import add_phone_number_to_db
 from services.complaints_db_service import get_complaints_from_db, add_complaint_to_db, update_complaint
 from services.twilio_sms_service import send_notification_service
@@ -83,7 +83,7 @@ def send_notification():
         app.logger.error(f"Error in send-notification route: {e}")
         return jsonify({"error": "Internal Server Error"}), 500
 
-@app.route("/voice", methods=['GET', 'POST'])
+@app.route("/receive-call", methods=['GET', 'POST'])
 def recieve_voice_call():
     """Endpoint to receive phone calls.
     USE:
@@ -94,6 +94,21 @@ def recieve_voice_call():
     except Exception as e:
         app.logger.error(f"Error in voice route: {e}")
         return jsonify({"error": "Internal Server Error"}), 500
+    
+@app.route("/make-call", methods=["POST"])
+def make_voice_call():
+    """Endpoint to make a voice call.
+    USE:
+
+    """
+    try:
+        return make_call()
+    except Exception as e:
+        app.logger.error(f"Error in make-call route: {e}")
+        return jsonify({"error": "Internal Server Error"}), 500
+
+        
+        
 
 @app.route("/phone-numbers", methods=["POST"])
 def add_phone_number():
