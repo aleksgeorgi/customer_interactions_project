@@ -46,7 +46,13 @@ volumes:
 # best practice: after making changes to the docker-compose.yml file, it's a good idea to clean up existing containers and volumes to ensure a fresh start
 # this will help avoid any conflicts or leftover data from previous builds
 # to do this, use the following command to stop and remove all containers, volumes, and any orphan containers:
-  #  docker-compose down -v --remove-orphans
+  # Use "docker-compose down -v --remove-orphans" when you need a completely clean slate and don't mind losing data stored in volumes.
+
+  # or less aggressive to allow data to persist:
+  #  docker-compose down
 
 # then, use the following command to build and run the containers:
   #  docker-compose up --build  
+
+# to check the status of the containers:
+  #  docker-compose ps
